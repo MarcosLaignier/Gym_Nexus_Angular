@@ -1,0 +1,22 @@
+
+    <dx-form>
+      <dxi-item [colCount]='2' itemType='group'>
+        <dxi-item [label]='{text: "Nome"}' template='nomeTemplate'></dxi-item>
+        <dxi-item [label]='{text: "Telefone"}' template='telefoneTemplate'></dxi-item>
+      </dxi-item>
+
+      <!--      TEMPLATE      -->
+      <div *dxTemplate="let data of 'nomeTemplate'">
+        <dx-button (click)="teste()">
+
+        </dx-button>
+      </div>
+
+      <div *dxTemplate="let data of 'telefoneTemplate'">
+        <dx-text-box mask='(00) 0000-0000'
+                     [width]="250">
+        </dx-text-box>
+      </div>
+    </dx-form>
+
+

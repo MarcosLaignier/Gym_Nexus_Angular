@@ -5,58 +5,66 @@ import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import {DxButtonModule, DxDataGridModule, DxFormModule, DxTextBoxModule} from 'devextreme-angular';
+import {PessoaComponent} from "./pages/pessoa-component/pessoa.component";
+import {PessoaService} from "./shared/services/pessoaService";
 
 const routes: Routes = [
-  {
-    path: 'tasks',
-    component: TasksComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'login-form',
-    component: LoginFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'reset-password',
-    component: ResetPasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'create-account',
-    component: CreateAccountFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'change-password/:recoveryCode',
-    component: ChangePasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
+  // {
+  //   path: 'tasks',
+  //   component: TasksComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
+  // {
+  //   path: 'profile',
+  //   component: ProfileComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
+  // {
+  //   path: 'home',
+  //   component: HomeComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
+  // {
+  //   path: 'login-form',
+  //   component: LoginFormComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
+  // {
+  //   path: 'reset-password',
+  //   component: ResetPasswordFormComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
+  // {
+  //   path: 'create-account',
+  //   component: CreateAccountFormComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
+  // {
+  //   path: 'change-password/:recoveryCode',
+  //   component: ChangePasswordFormComponent,
+  //   canActivate: [ AuthGuardService ]
+  // },
   {
     path: '**',
     redirectTo: 'home'
-  }
+  },
+
+//   Paths definidos
+
+  {path: 'pages/pessoa', component: PessoaComponent, canActivate: [AuthGuardService]},
+  {path: 'pages/pessoa/edit', component: PessoaComponent, canActivate: [AuthGuardService]},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule],
-  providers: [AuthGuardService],
+  imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxTextBoxModule, DxButtonModule],
+  providers: [AuthGuardService,PessoaService],
   exports: [RouterModule],
   declarations: [
     HomeComponent,
     ProfileComponent,
-    TasksComponent
+    TasksComponent,
+    PessoaComponent
   ]
 })
 export class AppRoutingModule { }
