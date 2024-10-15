@@ -1,13 +1,28 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './shared/components';
-import { AuthGuardService } from './shared/services';
-import { HomeComponent } from './pages/home/home.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { TasksComponent } from './pages/tasks/tasks.component';
-import {DxButtonModule, DxDataGridModule, DxFormModule, DxTextBoxModule} from 'devextreme-angular';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuardService} from './shared/services';
+import {HomeComponent} from './pages/home/home.component';
+import {ProfileComponent} from './pages/profile/profile.component';
+import {TasksComponent} from './pages/tasks/tasks.component';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxDateBoxModule,
+  DxFormModule,
+  DxLoadPanelModule,
+  DxNumberBoxModule,
+  DxSelectBoxModule,
+  DxSwitchModule,
+  DxTabPanelModule,
+  DxTextBoxModule,
+  DxValidatorModule
+} from 'devextreme-angular';
 import {PessoaComponent} from "./pages/pessoa-component/pessoa.component";
-import {PessoaService} from "./shared/services/pessoaService";
+import {PessoaService} from "./shared/services/pessoa.service";
+import {CrudBaseComponent} from "./shared/components/crud-component/crud.base.component";
+import {DxToolbarModule} from "devextreme-angular/ui/toolbar";
+import {CommonModule} from "@angular/common";
+import {ReactiveFormsModule} from "@angular/forms";
 
 const routes: Routes = [
   // {
@@ -57,14 +72,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxTextBoxModule, DxButtonModule],
+  imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxButtonModule, DxToolbarModule, DxTextBoxModule, CommonModule, DxLoadPanelModule, ReactiveFormsModule, DxValidatorModule, DxTabPanelModule, DxDateBoxModule, DxSwitchModule, DxSelectBoxModule, DxNumberBoxModule],
   providers: [AuthGuardService,PessoaService],
   exports: [RouterModule],
   declarations: [
     HomeComponent,
     ProfileComponent,
     TasksComponent,
-    PessoaComponent
+    PessoaComponent,
+    CrudBaseComponent
   ]
 })
 export class AppRoutingModule { }
