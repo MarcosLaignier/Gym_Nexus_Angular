@@ -1,22 +1,140 @@
+<dx-load-panel
+  #loadPanel
+  [(visible)]='loadingVisible'
+  [hideOnOutsideClick]='false'
+  [position]="{ of: '#grid' }"
+  [shading]='true'
+  [showIndicator]='true'
+  [showPane]='true'
+  message='Carregando ...'
+  shadingColor='rgba(0,0,0,0.4)'>
+</dx-load-panel>
 
+<crud #crud
+      (filtrar)="doFilter()"
+      (novoCadastro)="createPessoa()"
+      (salvar)="doSave(this.model)"
+      (clear)="doClear()"
+      [editToolbarTitle]="'Cadastro de Pessoa'"
+      [listToolbarTitle]="'Pesquisa de Pessoas'"
+      [mode]='mode'>
+
+  <div *ngIf='mode == ModeEnum.List' crud-list-filter-fields>
     <dx-form>
+      <dxi-item [label]='{text: "Nome"}' template='nomeTemplate'></dxi-item>
       <dxi-item [colCount]='2' itemType='group'>
-        <dxi-item [label]='{text: "Nome"}' template='nomeTemplate'></dxi-item>
-        <dxi-item [label]='{text: "Telefone"}' template='telefoneTemplate'></dxi-item>
+        <dxi-item [label]='{text: "Documento"}' template='documentoTemplate'></dxi-item>
+        <dxi-item [label]='{text: "Nascimento"}' template='nascimentoTemplate'></dxi-item>
       </dxi-item>
+      <dxi-item [label]='{text: "Situação"}' template='situacaoTemplate'></dxi-item>
+
 
       <!--      TEMPLATE      -->
       <div *dxTemplate="let data of 'nomeTemplate'">
-        <dx-button (click)="teste()">
+        <dx-text-box [width]="500">
 
-        </dx-button>
+        </dx-text-box>
       </div>
 
-      <div *dxTemplate="let data of 'telefoneTemplate'">
-        <dx-text-box mask='(00) 0000-0000'
+      <div *dxTemplate="let data of 'documentoTemplate'">
+        <dx-text-box mask='000.000.000-00'
                      [width]="250">
         </dx-text-box>
       </div>
+
+      <div *dxTemplate="let data of 'nascimentoTemplate'">
+        <dx-date-box [width]="150">
+
+        </dx-date-box>
+      </div>
+
+      <div *dxTemplate="let data of 'situacaoTemplate'">
+        <dx-select-box [width]="250"
+                       [items]="ativoInativoEnum">
+
+        </dx-select-box>
+      </div>
     </dx-form>
+  </div>
+
+  <div *ngIf='mode == ModeEnum.List' crud-list-result-fields>
+    <dx-data-grid [dataSource]='dataSource'>
+      <dxi-column dataField='nome'></dxi-column>
+      <dxi-column dataField='documento'></dxi-column>
+      <dxi-column dataField='nascimento' dataType="date" [format]="dateFormat"></dxi-column>
+      <dxi-column dataField='situacao'></dxi-column>
+    </dx-data-grid>
+  </div>
+
+  <div *ngIf='mode == ModeEnum.Edit' crud-edit-template>
+
+    <dx-tab-panel>
+      <dxi-item title='Dados Gerais'>
+        <dx-form #formularioPessoa
+                 [(formData)]='pessoa'
+                 [validationGroup]="'validatePessoa'"
+                 class='formulario'>
+
+          <dxi-item [colCount]='2' itemType='group'>
+            <dxi-item [isRequired]=' true'
+                      dataField='nome'
+                      template='nomeTemplate'>
+            </dxi-item>
+
+            <dxi-item [isRequired]=' true'
+                      dataField='nascimento'
+                      template='nascimentoTemplate'>
+            </dxi-item>
+
+            <dxi-item [isRequired]=' true'
+                      dataField='documento'
+                      template='documentoTemplate'>
+            </dxi-item>
+
+            <dxi-item [isRequired]=' true'
+                      dataField='situacao'
+                      template='situacaoTemplate'>
+            </dxi-item>
+          </dxi-item>
+
+          <!--      TEMPLATES   -->
+          <div *dxTemplate="let data of 'nomeTemplate'">
+            <dx-text-box [(value)]='model.nome'
+                         [width]="500">
+            </dx-text-box>
+          </div>
+
+          <div *dxTemplate="let data of 'documentoTemplate'">
+            <dx-text-box [(value)]='model.documento'
+                         [useMaskedValue]="true"
+                         mask="000.000.000-00"
+                         [maxLength]="11"
+                         [width]="250">
+            </dx-text-box>
+          </div>
+
+          <div *dxTemplate="let data of 'nascimentoTemplate'">
+            <dx-date-box [width]="150"
+                         [(value)]="model.nascimento"
+                         [useMaskBehavior]="true"
+                         [displayFormat]="dateFormat">
+
+            </dx-date-box>
+          </div>
+
+          <div *dxTemplate="let data of 'situacaoTemplate'">
+            <dx-select-box [width]="150"
+                           [(value)]="model.situacao"
+                           [items]="ativoInativoEnum">
+
+            </dx-select-box>
+          </div>
+
+        </dx-form>
+      </dxi-item>
 
 
+    </dx-tab-panel>
+  </div>
+
+</crud>
